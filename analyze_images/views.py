@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-from .forms import UploadFileForm
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -8,11 +7,12 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def index(request):
     if request.method == 'POST':
-        form = UploadFileForm(request.POST, request.FILES)
-        print(request.FILES)
-        if form.is_valid():
-            return HttpResponse(request.FILES['image'])
-        else:
-            return HttpResponse('Form is not valid')
+        images = request.FILES.getlist('images')
+        print(images[0].read())
+        print(type(images[0]))
+        print(images[1].read())
+        print(type(images[1]))
+
+        return HttpResponse('Success')
     else:
         return HttpResponse(status=404)
